@@ -1,0 +1,30 @@
+{
+  "name": "babel-plugin-lodash-import",
+  "version": "1.0.0",
+  "description": "Transforms lodash imports into tree-shakeable ones",
+  "main": "lib/index.js",
+  "scripts": {
+    "test": "NODE_ENV='production' babel-node ./test/index.js",
+    "babel": "babel ./test/index.js",
+    "build": "babel src --out-dir lib",
+    "prepublish": "npm run build"
+  },
+  "keywords": [
+    "babel-plugin",
+    "cherry-pick",
+    "lodash",
+    "modules"
+  ],
+  "files": [
+    "lib",
+    "src"
+  ],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "babel-cli": "^6.26.0",
+    "babel-core": "^6.26.3",
+    "babel-preset-env": "^1.7.0"
+  },
+  "dependencies": {}
+}

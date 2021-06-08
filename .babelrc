@@ -1,0 +1,13 @@
+{
+  "plugins": [
+    ["./src/index.js", { "removeMethods": null }]
+  ],
+  "presets": [
+    ["env", {
+      "loose": true,
+      "targets": {
+        "node": 4
+      }
+    }]
+  ]
+}
