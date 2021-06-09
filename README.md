@@ -2,7 +2,7 @@
 
 a **babel plugin** that implements lodash imports on demand, converting the full volume of lodash imports into only the parts of the function that need to be imported
 
-[here](https://www.npmjs.com/package/babel-plugin-lodash) is the official plugin with similar functionality which is more reliable once you use it in production mode
+[here](https://www.npmjs.com/package/babel-plugin-lodash) is the official plugin with similar functionality which is more reliable once you use it in production mode 😄
 
 this plugin can convert the code:
 
@@ -64,7 +64,7 @@ _filter(1, 2);
 _filter(3333);
 ```
 
-## usage mode
+## usage
 
 ### 1. babel-cli
 

@@ -1,6 +1,6 @@
 {
   "name": "babel-plugin-lodash-import",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Transforms lodash imports into tree-shakeable ones",
   "main": "lib/index.js",
   "scripts": {
@@ -19,7 +19,11 @@
     "lib",
     "src"
   ],
-  "author": "",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/MinjieChang/babel-plugin-lodash-import.git"
+  },
+  "author": "changminjie",
   "license": "ISC",
   "devDependencies": {
     "babel-cli": "^6.26.0",
