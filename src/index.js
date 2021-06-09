@@ -1,6 +1,4 @@
 module.exports = ({ types: t, template }) => {
-  const isProcuction = process.env.NODE_ENV === "production";
-  if (!isProcuction) { return null }
   return {
     pre(state) {
       this.propertyNames = [];
