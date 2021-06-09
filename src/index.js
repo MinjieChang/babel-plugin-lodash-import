@@ -1,4 +1,6 @@
 module.exports = ({ types: t, template }) => {
+  const isProcuction = process.env.NODE_ENV === "production";
+  if (!isProcuction) { return null }
   return {
     pre(state) {
       this.propertyNames = [];
@@ -58,7 +60,9 @@ module.exports = ({ types: t, template }) => {
         }
       },
       CallExpression(path, state, scope) {
-        // lodash.isEqual(1,2) => isEqual(1,2)
+        /**
+         * lodash.isEqual(1,2) -> isEqual(1,2)
+         */
         if (
           path.node.callee && path.node.callee.object &&
           (this.moduleVals.includes(path.node.callee.object.name) || this.namespaceSpecifier.includes(path.node.callee.object.name))
@@ -67,16 +71,30 @@ module.exports = ({ types: t, template }) => {
           if (!this.propertyNames.includes(propertyName)) {
             this.propertyNames.push(propertyName);
           }
-          path.get("callee").replaceWith(t.identifier(propertyName));
+          path.get("callee").replaceWith(t.identifier(`_${propertyName}`));
+        }
+        /**
+         * import { forEach } from 'lodash'
+         * forEach()
+         * ------->
+         * import _forEach from 'lodash/forEach'
+         * _forEach()
+         */
+         if (
+          path.node.callee && path.node.callee.name &&
+          (this.propertyNames.includes(path.node.callee.name) || this.fpPropertyNames.includes(path.node.callee.name))
+        ) {
+          const calleeName = path.node.callee.name;
+          path.get("callee").replaceWith(t.identifier(`_${calleeName}`));
         }
       },
     },
     post(state) {
       this.propertyNames.forEach((name) => {
-        state.path.node.body.unshift(buildImportDeclaration(t, name, `lodash/${name}`));
+        insertImportDeclaration(state.path, buildImportDeclaration(t, `_${name}`, `lodash/${name}`))
       });
       this.fpPropertyNames.forEach((name) => {
-        state.path.node.body.unshift(buildImportDeclaration(t, name, `lodash/fp/${name}`));
+        insertImportDeclaration(state.path, buildImportDeclaration(t, `_${name}`, `lodash/fp/${name}`))
       });
     },
   };
@@ -90,6 +108,6 @@ function buildImportDeclaration(t, name, source) {
 }
 
 function insertImportDeclaration(path, importDeclaration) {
-  const program = path.findParent(parent => parent.parentKey === 'program')
+  const program = path.find(parent => parent.parentKey === 'program')
   program.node.body.unshift(importDeclaration);
 }

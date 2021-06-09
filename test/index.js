@@ -1,15 +1,21 @@
-// babel-plugin-import 实现解析
-// babel-plugin-lodash 实现解析
-
 const babel = require("babel-core");
 const lodashPlugin = require("../src/index")
 
 const code =`
 import lodash from 'lodash'
 import _ from 'lodash'
-import { uniq, map, forEach, isEqual} from 'lodash'
 import * as lodash3 from 'lodash'
+
+import uniq from 'lodash/uniq'
+import debounce from 'lodash/debounce'
+
+import { map, forEach } from 'lodash'
 import { add } from 'lodash/fp'
+
+forEach(function (a){console.log(a)})
+map()
+uniq()
+debounce(999)
 
 const addOne = add(1)
 _.map([1, 2, 3], addOne)
