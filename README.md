@@ -1,54 +1,74 @@
 # babel-plugin-lodash-import
 
-一个实现 `lodash`按需加载的 `babel`插件，实现将 `lodash`的全量引入转换成只导入需要引入的函数部分，原理类似 `babel-plugin-import`
+a **babel plugin** that implements lodash imports on demand, converting the full volume of lodash imports into only the parts of the function that need to be imported
 
-当然，这里也有[官方](https://www.npmjs.com/package/babel-plugin-lodash)的 `lodash`插件，如果在生产环境使用，还是建议使用官方的 :cry:
+[here](https://www.npmjs.com/package/babel-plugin-lodash) is the official plugin with similar functionality which is more reliable once you use it in production mode
 
-它可以将如下代码：
+this plugin can convert the code:
 
 ```js
 import lodash from 'lodash'
-import { uniq, map, forEach, isEqual} from 'lodash'
+import _ from 'lodash'
 import * as lodash3 from 'lodash'
+
+import uniq from 'lodash/uniq'
+import debounce from 'lodash/debounce'
+
+import { map, forEach } from 'lodash'
 import { add } from 'lodash/fp'
+
+forEach(function (a){console.log(a)})
+map()
+uniq()
+debounce(999)
 
 const addOne = add(1)
 _.map([1, 2, 3], addOne)
 
-lodash.debounce()
+lodash.debounce(1,2)
 lodash.isEqual(1,2)
-lodash3.throttle()
-lodash.filter()
-_.filter()
+lodash3.throttle(33)
+lodash.filter(1,2)
+_.filter(3333)
 ```
 
-转换为如下的形式：
+to the following code：
 
 ```js
-import add from 'lodash/fp/add';
-import filter from 'lodash/filter';
-import throttle from 'lodash/throttle';
-import debounce from 'lodash/debounce';
-import isEqual from 'lodash/isEqual';
-import forEach from 'lodash/forEach';
-import map from 'lodash/map';
+import _add from 'lodash/fp/add';
+import _filter from 'lodash/filter';
+import _throttle from 'lodash/throttle';
+import _isEqual from 'lodash/isEqual';
+import _debounce from 'lodash/debounce';
+import _forEach from 'lodash/forEach';
+import _map from 'lodash/map';
+
+
 import uniq from 'lodash/uniq';
+import debounce from 'lodash/debounce';
 
-const addOne = add(1);
-map([1, 2, 3], addOne);
+_forEach(function (a) {
+  console.log(a);
+});
+_map();
+uniq();
+debounce(999);
 
-debounce();
-isEqual(1, 2);
-throttle();
-filter();
-filter();
+const addOne = _add(1);
+_map([1, 2, 3], addOne);
+
+_debounce(1, 2);
+_isEqual(1, 2);
+_throttle(33);
+_filter(1, 2);
+_filter(3333);
 ```
 
-## 使用方式
+## usage mode
 
-### babel-cli
+### 1. babel-cli
 
-.babelrc 文件添加
+add following code to `.babelrc` file
 
 ```js
 {
@@ -68,7 +88,9 @@ package.json
 }
 ```
 
-### babel api
+### 2. babel api
+
+testd by babel api
 
 ```js
 const babel = require("babel-core");
@@ -81,7 +103,9 @@ const result = babel.transform(code, {
 console.log(result.code, 'result');
 ```
 
-### webpack.config.js
+### 3. webpack.config.js
+
+used in webpack
 
 ```js
 'module': {
@@ -97,6 +121,6 @@ console.log(result.code, 'result');
 }
 ```
 
-## babel 插件解析
+## how to implement a babel plugin
 
-[如何实现一个bable插件](https://github.com/MinjieChang/myBlog/issues/35)
+[guideline to implement babel plugin](https://github.com/MinjieChang/myBlog/issues/35)
